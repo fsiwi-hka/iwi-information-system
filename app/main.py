@@ -19,7 +19,9 @@ class FullscreenImageViewer:
         self.image_label = tk.Label(self.root)
         self.image_label.pack(expand=True)
 
+        self.root.resizable(True, True)
         self.root.after(20 * 1000, self.update_files)
+        self.root.after(300, lambda: root.attributes("-fullscreen", True))
 
         self.next_image()
 
@@ -42,6 +44,7 @@ class FullscreenImageViewer:
         self.root.after(current_interval * 1000, self.next_image)
 
     def next_image(self):
+        self.update_files()
         self.show_image()
         self.set_timer()
         self.current_image_index = (self.current_image_index + 1) % len(self.images)

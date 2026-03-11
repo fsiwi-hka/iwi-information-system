@@ -12,6 +12,16 @@ LOGFILE="$BASE_DIR/start.log"
 exec >> "$LOGFILE" 2>&1
 echo "[$(date)] Starting application..."
 
+cd "$BASE_DIR" || { echo "[$(date)] Failed to change directory to $BASE_DIR"; exit 1; }
+
+if [ -d ".git" ]; then
+    echo "[$(date)] Updating repository..."
+    git fetch origin
+    git pull --ff-only
+else
+    echo "[$(date)] No git repository found, skipping update."
+fi
+
 cd "$APP_DIR" || { echo "[$(date)] Failed to change directory to $APP_DIR"; exit 1; }
 
 # Prüfe, ob virtuelle Umgebung existiert, wenn nicht -> erstellen
